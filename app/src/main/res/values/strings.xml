@@ -19,5 +19,7 @@
     <string name="email_password">Enter your email</string>
     <string name="back_to_login">Back to Login</string>
     <string name="reset_password_email">Reset Password</string>
+    <string name="new_password_hint">Enter new password</string>
+    <string name="new_confirm_password_hint">Re-type new password</string>
     <string name="email_send_confirmation">We\'ve processed your request. If the email address is linked to an account, you\'ll receive reset instructions soon.</string>
 </resources>
