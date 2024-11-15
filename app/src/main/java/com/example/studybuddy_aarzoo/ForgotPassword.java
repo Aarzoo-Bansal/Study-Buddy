@@ -1,5 +1,6 @@
 package com.example.studybuddy_aarzoo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -19,6 +20,7 @@ public class ForgotPassword extends AppCompatActivity {
     TextView emailConfirmationInfo;
     Button sendEmail;
     TextInputEditText email;
+    TextView backToLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,12 @@ public class ForgotPassword extends AppCompatActivity {
         emailConfirmationInfo.setVisibility(View.INVISIBLE);
         sendEmail = findViewById(R.id.sendResetPasswordEmail);
         email = findViewById(R.id.emailEditText);
+        backToLogin = findViewById(R.id.backToLogin);
+
+        backToLogin.setOnClickListener( v -> {
+            Intent intent = new Intent(ForgotPassword.this, LoginPage.class);
+            startActivity(intent);
+        });
 
         sendEmail.setOnClickListener(v -> {
             String emailInfo = email.getText().toString();
@@ -44,6 +52,7 @@ public class ForgotPassword extends AppCompatActivity {
                 htmlText = "<font color='#CF6679'>Email can not be empty!</font>";
 
             }else{
+                //TODO: have email validation - check if the email format is correct
                 htmlText = "<font color='#FFFFFF'>We've processed your request. If the email address is linked to an account, you'll receive reset instructions soon.";
             }
 
