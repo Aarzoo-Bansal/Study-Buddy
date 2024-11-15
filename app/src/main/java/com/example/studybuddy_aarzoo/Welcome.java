@@ -1,53 +1,47 @@
 package com.example.studybuddy_aarzoo;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
+import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 public class Welcome extends AppCompatActivity {
 
-    private TextInputLayout passwordLayout;
-    private TextInputEditText passwordEditText;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login_screen);
+        private static final int SPLASH_DURATION = 2500; // 3 seconds
 
-        TextView signupLink = findViewById(R.id.signUpLink);
-        String htmlText = "Don't have an account?  <font color='#58a6ff'>Sign up here!</font>";
-        signupLink.setText(Html.fromHtml(htmlText, Html.FROM_HTML_MODE_LEGACY));
-        signupLink.setOnClickListener(v -> {
-            Log.println(Log.WARN, "Signup link works", "hello from signup link!");
-        });
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_welcome);
 
+            // Hide the action bar if present
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().hide();
+            }
 
-        passwordLayout = findViewById(R.id.passwordLayout);
-        passwordEditText = findViewById(R.id.passwordEditText);
+           //Getting all the components from UI and adding animation to it.
+            ImageView logoImageView = findViewById(R.id.logo);
+            TextView appName = findViewById(R.id.appName);
+            TextView subLine = findViewById(R.id.subLine);
+            Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+            logoImageView.startAnimation(fadeIn);
+            appName.startAnimation(fadeIn);
+            subLine.startAnimation(fadeIn);
 
-        // Ensure the end icon mode is set to password toggle
-        passwordLayout.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
-
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(Welcome.this, LoginPage.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }, SPLASH_DURATION);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
