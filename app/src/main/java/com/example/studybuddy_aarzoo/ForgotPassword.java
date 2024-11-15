@@ -52,7 +52,7 @@ public class ForgotPassword extends AppCompatActivity {
                 htmlText = "<font color='#CF6679'>Email can not be empty!</font>";
 
             }else{
-                //TODO: have email validation - check if the email format is correct
+                //TODO: have email validation - check if the email format is correct.
                 htmlText = "<font color='#FFFFFF'>We've processed your request. If the email address is linked to an account, you'll receive reset instructions soon.";
             }
 
