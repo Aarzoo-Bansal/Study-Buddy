@@ -27,6 +27,10 @@ public class FirebaseFirestoreDB {
         this.callback = callback;
     }
 
+    public FirebaseFirestoreDB(){
+
+    }
+
     public void addNewUser(Map<String, Object> userDetails){
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore.collection("users")

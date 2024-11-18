@@ -42,6 +42,7 @@ public class ForgotPassword extends AppCompatActivity {
         backToLogin.setOnClickListener( v -> {
             Intent intent = new Intent(ForgotPassword.this, LoginPage.class);
             startActivity(intent);
+            finish();
         });
 
         sendEmail.setOnClickListener(v -> {

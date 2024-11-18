@@ -16,6 +16,7 @@ public class User {
         this.userDetails.put("userEmail", userEmail);
         this.userDetails.put("password", userPassword);
         this.userDetails.put("isEmailVerified", false);
+        this.userDetails.put("isPasswordResetRequired", false);
         return this.userDetails;
     }
 
