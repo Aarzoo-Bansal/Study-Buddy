@@ -22,4 +22,18 @@
     <string name="new_password_hint">Enter new password</string>
     <string name="new_confirm_password_hint">Re-type new password</string>
     <string name="email_send_confirmation">We\'ve processed your request. If the email address is linked to an account, you\'ll receive reset instructions soon.</string>
+
+    <!-- Field name for Signup activity -->
+    <string name="password">password</string>
+    <string name="confirm_password">confirmPassword</string>
+
+    <!-- Adding SIGN-UP page error and success messages here -->
+    <string name="empty_name">Name cannot be empty!</string>
+    <string name="empty_email">Email cannot be empty!</string>
+    <string name="invalid_email">Invalid email format!</string>
+    <string name="empty_password">Password cannot be empty!</string>
+    <string name="password_no_match">Passwords do not match!</string>
+    <string name="added_successfully">You have been added successfully! You will now be redirected to the login page where you need to login to find your buddy!</string>
+    <string name="not_added_successfully">There has been some error in processing your request. Please try again later.</string>
+    <string name="existing_member">This email already exists. Please click on the Already a Member link to Login!</string>
 </resources>

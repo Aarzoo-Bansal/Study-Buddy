@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -23,12 +24,15 @@ public class LoginPage extends AppCompatActivity {
     private TextView signUpLink;
     private TextView forgetPasswordLink;
     private boolean passwordVisible = false; //initially the password is not visible
+    private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login_screen);
+
+        loginButton = findViewById(R.id.loginButton);
 
         signUpLink = findViewById(R.id.signUpLink);
         String htmlText = "Don't have an account?  <font color='#58a6ff'>Sign up here!</font>";
@@ -39,6 +43,7 @@ public class LoginPage extends AppCompatActivity {
         signUpLink.setOnClickListener(v -> {
             Intent intent = new Intent(this, SignUp.class);
             startActivity(intent);
+            finish();
         });
 
         //Directing user to Forgot Screen when user forgets their password
@@ -47,8 +52,6 @@ public class LoginPage extends AppCompatActivity {
             Intent intent = new Intent(LoginPage.this, ForgotPassword.class);
             startActivity(intent);
         });
-
-
 
         passwordLayout = findViewById(R.id.confirmPasswordLayout);
         passwordEditText = findViewById(R.id.confirmPasswordEditText);
@@ -59,6 +62,11 @@ public class LoginPage extends AppCompatActivity {
             public void onClick(View v) {
                 togglePasswordVisibility();
             }
+        });
+
+        //setting the on click listener for the login button
+        loginButton.setOnClickListener( v -> {
+            this.checkCredentials();
         });
     }
 
@@ -76,6 +84,10 @@ public class LoginPage extends AppCompatActivity {
         }
         // Move cursor to the end of the text
         passwordEditText.setSelection(passwordEditText.getText().length());
+    }
+
+    public void checkCredentials(){
+
     }
 
     }
