@@ -92,6 +92,7 @@ public class SignUp extends AppCompatActivity {
 
         passwordLayout.setEndIconOnClickListener(new View.OnClickListener() {
             final String fieldName = getString(R.string.password);
+
             @Override
             public void onClick(View v) {
                 togglePasswordVisibility(isPasswordVisible, passwordLayout, passwordEditText, fieldName);
@@ -100,6 +101,7 @@ public class SignUp extends AppCompatActivity {
 
         confirmPasswordLayout.setEndIconOnClickListener(new View.OnClickListener() {
             final String fieldName = getString(R.string.confirm_password);
+
             @Override
             public void onClick(View v) {
                 togglePasswordVisibility(isConfirmPasswordVisible, confirmPasswordLayout, confirmPasswordEditText, fieldName);
@@ -111,19 +113,19 @@ public class SignUp extends AppCompatActivity {
     }
 
     //This function determines where the password is currently showing or not and accordingly toggles it.
-    public void togglePasswordVisibility(Boolean isPasswordVisible, TextInputLayout layout, TextInputEditText editText, String fieldName){
+    public void togglePasswordVisibility(Boolean isPasswordVisible, TextInputLayout layout, TextInputEditText editText, String fieldName) {
         isPasswordVisible = !isPasswordVisible;
 
-        if(fieldName.equals(getString(R.string.password))){
+        if (fieldName.equals(getString(R.string.password))) {
             this.isPasswordVisible = !this.isPasswordVisible;
-        }else{
+        } else {
             this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
         }
 
-        if(isPasswordVisible){ //This means that password is currently visible and we need to hide it
+        if (isPasswordVisible) { //This means that password is currently visible and we need to hide it
             editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             layout.setEndIconDrawable(R.drawable.baseline_visibility_off_24);
-        }else{ //Password is hidden and we need to show it
+        } else { //Password is hidden and we need to show it
             editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
             layout.setEndIconDrawable(R.drawable.baseline_visibility_24);
         }
@@ -131,7 +133,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     //This function is called when the user clicks on the Sign-Up button
-    public void submitSignUpRequest(View v){
+    public void submitSignUpRequest(View v) {
         String userName = this.userName.getText().toString().trim();
         String userEmail = this.userEmail.getText().toString().trim();
         String password = this.passwordEditText.getText().toString().trim();
@@ -174,7 +176,7 @@ public class SignUp extends AppCompatActivity {
 //            return;
 //        }
 
-        if(check.performValidationOnInput(userName, userEmail, password, confirmPassword, context, v)){
+        if (check.performValidationOnInput(userName, userEmail, password, confirmPassword, context, v)) {
 
             //If all validations are passed - we will create a user record in the database
 
@@ -218,27 +220,26 @@ public class SignUp extends AppCompatActivity {
 
             //check if the user already exists
             db.checkUserAlreadyExists(userEmail)
-                            .thenAccept(exists -> {
-                                if (exists) {
-                                    String message = getString(R.string.existing_member);
-                                    snackbar.createErrorSnackbar(message, v, context).show();
-                                    return;
-                                } else {
-                                    User user = new User();
-                                    Map<String, Object> userDetails = user.createNewUserMap(userName, userEmail, password);
-                                    showLoadingDialog();
-                                    signUpButton.setEnabled(false);
-                                    db.addNewUser(userDetails);
-                                }
-                            })
-                    .exceptionally( e -> {
+                    .thenAccept(exists -> {
+                        if (exists) {
+                            String message = getString(R.string.existing_member);
+                            snackbar.createErrorSnackbar(message, v, context).show();
+                            return;
+                        } else {
+                            User user = new User();
+                            Map<String, Object> userDetails = user.createNewUserMap(userName, userEmail, password);
+                            showLoadingDialog();
+                            signUpButton.setEnabled(false);
+                            db.addNewUser(userDetails);
+                        }
+                    })
+                    .exceptionally(e -> {
                         return null;
                     });
-        }else{
+        } else {
             return;
         }
     }
-
 
 
     //This function is used to show the

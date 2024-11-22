@@ -1,6 +1,7 @@
 package com.example.studybuddy_aarzoo;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -12,10 +13,18 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.studybuddy_aarzoo.UIHelper.SnackbarUI;
+import com.example.studybuddy_aarzoo.data.database.FirebaseFirestoreDB;
+import com.example.studybuddy_aarzoo.data.database.FirestoreCallback;
+import com.example.studybuddy_aarzoo.data.model.User;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.widget.Toast;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -25,12 +34,17 @@ public class LoginPage extends AppCompatActivity {
     private TextView forgetPasswordLink;
     private boolean passwordVisible = false; //initially the password is not visible
     private Button loginButton;
+    private TextInputEditText email;
+    private SnackbarUI snackbar;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login_screen);
+        context = this;
+        snackbar = new SnackbarUI();
 
         loginButton = findViewById(R.id.loginButton);
 
@@ -45,6 +59,8 @@ public class LoginPage extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        email = findViewById(R.id.emailEditText);
 
         //Directing user to Forgot Screen when user forgets their password
         forgetPasswordLink = findViewById(R.id.forgotPasswordLink);
@@ -65,9 +81,7 @@ public class LoginPage extends AppCompatActivity {
         });
 
         //setting the on click listener for the login button
-        loginButton.setOnClickListener( v -> {
-            this.checkCredentials();
-        });
+        loginButton.setOnClickListener(this::checkCredentials);
     }
 
     private void togglePasswordVisibility() {
@@ -86,12 +100,33 @@ public class LoginPage extends AppCompatActivity {
         passwordEditText.setSelection(passwordEditText.getText().length());
     }
 
-    public void checkCredentials(){
+    public void checkCredentials(View v) {
+        FirebaseFirestoreDB db = new FirebaseFirestoreDB();
+        String userEmail = email.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+        Log.println(Log.WARN, "user data", password);
+        db.getUserCredentials(userEmail)
+                .thenAccept(users -> {
+                    Log.println(Log.WARN, "user data", users.getUserEmail() + users.getUserPassword() + users.getUserName());
+                    if (users.getUserEmail().isEmpty() || users.getUserEmail().isBlank()) { //This means that the user doesn't not exists.
+                        String message = getString(R.string.user_not_present);
+                        snackbar.createErrorSnackbar(message, v, context).show();
+                    } else if (!users.getUserPassword().equals(password)) {
+                        //Password is incorrect
+                        String message = getString(R.string.password_doesnot_match);
+                        snackbar.createErrorSnackbar(message, v, context).show();
+                    } else {
+                        //TODO: Start a new intent activity!!
+                    }
+                })
+                .exceptionally(e -> {
+                    return null;
+                });
 
 
     }
 
-    }
+}
 
 
 

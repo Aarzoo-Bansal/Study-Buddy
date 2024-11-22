@@ -3,7 +3,9 @@ package com.example.studybuddy_aarzoo.data.database;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 
+import com.example.studybuddy_aarzoo.LoginPage;
 import com.example.studybuddy_aarzoo.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -71,5 +73,37 @@ public class FirebaseFirestoreDB {
                 });
         return ans;
     }
+
+    public CompletableFuture<User> getUserCredentials(String userEmail){
+
+        CompletableFuture<User> userDetails = new CompletableFuture<>();
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        CollectionReference users = firestore.collection("users");
+
+
+        users.whereEqualTo("userEmail", userEmail)
+                .limit(1)
+                .get()
+                .addOnCompleteListener( task -> {
+                    if(task.isSuccessful()){
+                        QuerySnapshot queryresult = task.getResult();
+                        if(queryresult != null && !queryresult.isEmpty()){
+                            for(DocumentSnapshot document : queryresult.getDocuments()){
+                                userDetails.complete(new User(document.get("userEmail").toString(), document.get("password").toString(), document.get("userName").toString()));
+                            }
+                        }else{
+                            userDetails.complete(new User("", "", ""));
+
+                        }
+                    }else{
+                        userDetails.completeExceptionally(task.getException());
+                    }
+                });
+
+        return userDetails;
+
+    }
+
 
 }

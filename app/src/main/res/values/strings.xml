@@ -27,6 +27,10 @@
     <string name="password">password</string>
     <string name="confirm_password">confirmPassword</string>
 
+    <!-- Login Page messages here -->
+    <string name="user_not_present">You are not registered. Please sign up!</string>
+    <string name="password_doesnot_match">Password is incorrect!</string>
+
     <!-- Adding SIGN-UP page error and success messages here -->
     <string name="empty_name">Name cannot be empty!</string>
     <string name="empty_email">Email cannot be empty!</string>
